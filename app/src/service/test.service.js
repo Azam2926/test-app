@@ -7,7 +7,7 @@ const testService = {
   submitAnswers (answers) {
     return httpClient.post('question/check-answers', answers)
   },
-  loadingQuestion: {
+  loading: {
     id: -1,
     content: 'Loading ...',
     questionAnswers: [
@@ -29,6 +29,28 @@ const testService = {
       },
     ],
   },
+  notFound: {
+    id: -1,
+    content: 'Something went wrong',
+    questionAnswers: [
+      {
+        id: -1,
+        content: 'Something went wrong',
+      },
+      {
+        id: -1,
+        content: 'Something went wrong',
+      },
+      {
+        id: -1,
+        content: 'Something went wrong',
+      },
+      {
+        id: -1,
+        content: 'Something went wrong',
+      },
+    ],
+  }
 }
 
 export default testService

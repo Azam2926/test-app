@@ -49,6 +49,8 @@ const routes = [
         path: '/register',
         redirect: '/auth/register'
     },
+    { path: '/:pathMatch(.*)*', name: 'NotFound', redirect: {name: 'home'} },
+
 ]
 
 const router = createRouter({

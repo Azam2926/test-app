@@ -12,7 +12,6 @@
 <script>
 import Navbar from './Navbar.vue'
 import authService from "../service/auth.service";
-
 export default {
   name: 'Main',
   components: {Navbar},

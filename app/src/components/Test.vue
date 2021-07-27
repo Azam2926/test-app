@@ -1,34 +1,42 @@
 <template>
-
-  <div v-if="result.show" class="min-h-[inherit] font-sans text-white py-4 sm:px-4 md:px-4 font-bold text-2xl flex justify-center items-center">
-    {{ result.score }} from {{ question_length }} questions
+  <div v-if="result.show" class="min-h-[inherit] font-sans text-white py-4 sm:px-4 md:px-4 font-bold text-2xl flex flex-col space-y-6 text-center justify-center items-center">
+    <p>{{ result.score }} from {{ question_length }} questions</p>
+    <a
+        class="cursor-pointer bg-gray-800 hover:bg-opacity-50 mx-auto w-10/12 md:w-1/4 text-center text-gray-200 hover:bg-gray-700 z-50 font-bold py-4 px-4 shadow-lg rounded"
+        @click="this.$router.go()"
+    >
+      Replay test
+    </a>
   </div>
 
   <div v-else>
-    <div class="font-sans flex justify-center items-center text-white pt-10 sm:px-4 md:px-4">
-      <action-btn :disabled="disabledPrev" @displayQuestion="currentIndex--" roundedClass="rounded-l">
+    <div
+        class="font-sans flex justify-center items-center text-white pt-10 px-2 sm:px-4 md:px-4"
+        :class="{'px-8 py-2': loading}"
+    >
+      <action-btn v-show="!loading" :disabled="disabledPrev" @displayQuestion="currentIndex--" roundedClass="rounded-l">
         <app-svg d="M15 19l-7-7 7-7"/>
       </action-btn>
 
       <div class="flex flex-col bg-purple-800 bg-opacity-50 shadow-lg rounded !w-[1050px] h-auto">
-        <Question :question="currentQuestion"/>
-        <Answers :answers="currentQuestion.questionAnswers" @takeAnswer="takeAnswers"/>
+        <Question :loading="loading" :question="currentQuestion"/>
+        <Answers :loading="loading" :answers="currentQuestion.questionAnswers" @takeAnswer="takeAnswers"/>
       </div>
 
-      <action-btn :disabled="disabledNext" @displayQuestion="currentIndex++" roundedClass="rounded-r">
+      <action-btn v-show="!loading" :disabled="disabledNext" @displayQuestion="currentIndex++" roundedClass="rounded-r">
         <app-svg d="M9 5l7 7-7 7"/>
       </action-btn>
     </div>
     <div class="flex">
       <button
-          class="bg-gray-800 hover:bg-opacity-50 mx-auto w-1/6 text-gray-200 hover:bg-gray-700 z-50 font-bold py-4 px-4 shadow-lg rounded-b"
+          class="bg-gray-800 hover:bg-opacity-50 inline-flex justify-center mx-auto w-1/2 md:w-1/4 text-gray-200 hover:bg-gray-700 z-50 font-bold py-4 px-4 shadow-lg rounded-b"
           :class="{ hidden: hiddenSubmit }"
           @click="submitAnswers"
       >
         Submit
       </button>
     </div>
-    <p class="text-center mt-4 text-gray-800 text-2xl">{{ footer }}</p>
+    <p v-show="!loading" class="text-center mt-4 text-gray-800 text-2xl">{{ footer }}</p>
   </div>
 
 </template>
@@ -45,6 +53,11 @@ export default {
   components: {AppSvg, Question, ActionBtn, Answers},
   data() {
     return {
+      error:false,
+      loading:false,
+      status: {
+        checking_answer: false,
+      },
       questions: [],
       currentIndex: 0,
       reachedEnd: false,
@@ -56,15 +69,19 @@ export default {
     }
   },
   async created() {
+    this.loading = true
     try {
       const res = await testService.get()
       this.questions = res.data
     } catch (e) {
-      console.log(e)
+      this.error = true
     }
+    this.loading = false
   },
   methods: {
     async submitAnswers() {
+      this.loading = true
+
       try {
         const res = await testService.submitAnswers(this.answers)
         this.result = {
@@ -74,6 +91,8 @@ export default {
       } catch (e) {
         console.log(e)
       }
+      this.loading = false
+
     },
     takeAnswers(answers, selectedAnswer) {
       this.questions[this.currentIndex].questionAnswers = answers
@@ -91,7 +110,10 @@ export default {
   },
   computed: {
     currentQuestion() {
-      return this.questions[this.currentIndex] ?? testService.loadingQuestion
+      if(this.error)
+        return testService.notFound
+
+      return this.questions[this.currentIndex] ?? testService.loading
     },
     disabledPrev() {
       return this.currentIndex === 0
