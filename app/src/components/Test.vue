@@ -1,5 +1,6 @@
 <template>
-  <div v-if="result.show" class="min-h-[inherit] font-sans text-white py-4 sm:px-4 md:px-4 font-bold text-2xl flex flex-col space-y-6 text-center justify-center items-center">
+  <div v-if="result.show"
+       class="min-h-[inherit] font-sans text-white py-4 sm:px-4 md:px-4 font-bold text-2xl flex flex-col space-y-6 text-center justify-center items-center">
     <p>{{ result.score }} from {{ question_length }} questions</p>
     <a
         class="cursor-pointer bg-gray-800 hover:bg-opacity-50 mx-auto w-10/12 md:w-1/4 text-center text-gray-200 hover:bg-gray-700 z-50 font-bold py-4 px-4 shadow-lg rounded"
@@ -53,8 +54,8 @@ export default {
   components: {AppSvg, Question, ActionBtn, Answers},
   data() {
     return {
-      error:false,
-      loading:false,
+      error: false,
+      loading: false,
       status: {
         checking_answer: false,
       },
@@ -106,11 +107,16 @@ export default {
           question_id: this.currentQuestion.id,
           answer_id: selectedAnswer.id,
         })
+
+      setTimeout(() => {
+        if (this.currentIndex !== this.question_length - 1)
+          this.currentIndex++
+      }, 300)
     },
   },
   computed: {
     currentQuestion() {
-      if(this.error)
+      if (this.error)
         return testService.notFound
 
       return this.questions[this.currentIndex] ?? testService.loading
