@@ -1,0 +1,28 @@
+{
+  "name": "app",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@tailwindcss/line-clamp": "^0.2.1",
+    "axios": "^0.21.1",
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.10"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.5",
+    "@vue/compiler-sfc": "^3.0.5",
+    "autoprefixer": "^10.3.1",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.6",
+    "vite": "^2.4.3"
+  },
+  "jshintConfig": {
+    "asi": true,
+    "esversion": 6,
+    "nocomma": true
+  }
+}
