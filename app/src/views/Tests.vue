@@ -1,12 +1,13 @@
 <template>
-  <ul class="flex flex-col justify-center items-center space-y-4 pt-4 text-gray-700 text-xl">
-    <li v-for="(test, index) in tests" :key="index">
-      <router-link :to="'/test/'+test.slug">
+  <div class="p-2">
+    <ul class="space-y-4 pt-4 md:flex md:flex-col md:justify-center md:text-center text-white text-xl">
+    <li v-for="(test, index) in tests" :key="index" >
+      <router-link :to="'/test/'+test.slug" class="hover:underline hover:text-gray-700">
         {{ test.title }} - {{ test.content }}
       </router-link>
     </li>
   </ul>
-  <router-view/>
+  </div>
 </template>
 
 <script>

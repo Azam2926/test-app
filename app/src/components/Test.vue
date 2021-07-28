@@ -13,7 +13,7 @@
   <div v-else>
     <p v-show="!loading" class="text-center mt-4 pt-4 text-gray-800 text-2xl">{{ footer }}</p>
     <div
-        class="font-sans flex justify-center items-center text-white pt-4 px-2 sm:px-4 md:px-4"
+        class="flex justify-center items-center text-white pt-4 px-2 sm:px-4 md:px-4"
         :class="{'px-8 py-2': loading}"
     >
       <action-btn v-show="!loading" :disabled="disabledPrev" @displayQuestion="currentIndex--" roundedClass="rounded-l">
@@ -31,11 +31,11 @@
     </div>
     <div class="flex">
       <button
-          class="bg-gray-800 hover:bg-opacity-50 inline-flex justify-center mx-auto w-1/2 md:w-1/4 text-gray-200 hover:bg-gray-700 z-50 font-bold py-4 px-4 shadow-lg rounded-b"
+          class="text-lg mb-4 bg-gray-800 hover:bg-opacity-50 inline-flex justify-center mx-auto w-1/2 md:w-1/4 text-gray-200 hover:bg-gray-700 z-50 font-bold py-4 px-4 shadow-lg rounded-b"
           :class="{ hidden: hiddenSubmit }"
           @click="submitAnswers"
       >
-        Submit
+        Check answers
       </button>
     </div>
   </div>
