@@ -3,15 +3,12 @@
 namespace api\modules\v1\controllers;
 
 use api\modules\v1\actions\CheckAnswers;
+use api\modules\v1\actions\Index;
 use api\modules\v1\resources\Question;
-use common\models\Test;
 use Swagger\Annotations as SWG;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
-use yii\filters\Cors;
 use yii\helpers\ArrayHelper;
-use yii\rest\ActiveController;
-use yii\rest\IndexAction;
 use yii\rest\OptionsAction;
 use yii\rest\ViewAction;
 use yii\web\HttpException;
@@ -33,30 +30,8 @@ use yii\web\HttpException;
  * )
  * @author Eugene Terentev <eugene@terentev.net>
  */
-class QuestionController extends ActiveController
+class QuestionController extends ApiController
 {
-
-    public function behaviors(): array
-    {
-        $behaviors = parent::behaviors();
-
-        // remove authentication filter
-        $auth = $behaviors['authenticator'];
-        unset($behaviors['authenticator']);
-
-        // add CORS filter
-        $behaviors['corsFilter'] = [
-            'class' => Cors::class,
-        ];
-
-        // re-add authentication filter
-        $behaviors['authenticator'] = $auth;
-        // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
-        $behaviors['authenticator']['except'] = ['options'];
-
-        return $behaviors;
-    }
-
     protected function verbs(): array
     {
         return ArrayHelper::merge(parent::verbs(), [
@@ -105,9 +80,8 @@ class QuestionController extends ActiveController
     {
         return [
             'index' => [
-                'class' => IndexAction::class,
+                'class' => Index::class,
                 'modelClass' => $this->modelClass,
-                'prepareDataProvider' => [$this, 'prepareDataProvider'],
             ],
             'view' => [
                 'class' => ViewAction::class,
@@ -128,23 +102,6 @@ class QuestionController extends ActiveController
     /**
      * @return ActiveDataProvider
      */
-    public function prepareDataProvider(): ActiveDataProvider
-    {
-        #region Hard coded 😁 (for the lack of time)
-
-        $programmingTest = Test::findOne(['slug' => 'programming']);
-
-        #endregion
-
-        return new ActiveDataProvider(array(
-            'query' => Question::find()
-                ->activated()
-                ->byTest($programmingTest->id)
-                ->orderBy('rand()')
-                ->limit($programmingTest->number_of_question),
-            'pagination' => false
-        ));
-    }
 
     /**
      * @param $id

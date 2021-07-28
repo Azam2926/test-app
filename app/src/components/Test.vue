@@ -1,9 +1,9 @@
 <template>
   <div v-if="result.show"
-       class="min-h-[inherit] font-sans text-white py-4 sm:px-4 md:px-4 font-bold text-2xl flex flex-col space-y-6 text-center justify-center items-center">
+       class="min-h-[inherit] font-sans text-white py-4 sm:px-4 md:px-4 font-bold text-2xl flex flex-col space-y-16 text-center justify-center items-center">
     <p>{{ result.score }} from {{ question_length }} questions</p>
     <a
-        class="cursor-pointer bg-gray-800 hover:bg-opacity-50 mx-auto w-10/12 md:w-1/4 text-center text-gray-200 hover:bg-gray-700 z-50 font-bold py-4 px-4 shadow-lg rounded"
+        class="text-lg cursor-pointer bg-gray-800 hover:bg-opacity-50 mx-auto w-10/12 md:w-1/4 text-center text-gray-200 hover:bg-gray-700 z-50 font-bold py-4 px-4 shadow-lg rounded"
         @click="this.$router.go()"
     >
       Replay test
@@ -11,8 +11,9 @@
   </div>
 
   <div v-else>
+    <p v-show="!loading" class="text-center mt-4 pt-4 text-gray-800 text-2xl">{{ footer }}</p>
     <div
-        class="font-sans flex justify-center items-center text-white pt-10 px-2 sm:px-4 md:px-4"
+        class="font-sans flex justify-center items-center text-white pt-4 px-2 sm:px-4 md:px-4"
         :class="{'px-8 py-2': loading}"
     >
       <action-btn v-show="!loading" :disabled="disabledPrev" @displayQuestion="currentIndex--" roundedClass="rounded-l">
@@ -37,7 +38,6 @@
         Submit
       </button>
     </div>
-    <p v-show="!loading" class="text-center mt-4 text-gray-800 text-2xl">{{ footer }}</p>
   </div>
 
 </template>
@@ -52,13 +52,13 @@ import AppSvg from "./AppSvg.vue";
 export default {
   name: 'Test',
   components: {AppSvg, Question, ActionBtn, Answers},
+  props: {
+    slug: String
+  },
   data() {
     return {
       error: false,
       loading: false,
-      status: {
-        checking_answer: false,
-      },
       questions: [],
       currentIndex: 0,
       reachedEnd: false,
@@ -72,7 +72,7 @@ export default {
   async created() {
     this.loading = true
     try {
-      const res = await testService.get()
+      const res = await testService.get(this.slug)
       this.questions = res.data
     } catch (e) {
       this.error = true

@@ -42,7 +42,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             return Html::a(StringHelper::truncate($model->test->title, 40), ['test/view', 'id' => $model->test->id]);
                         }
                     ],
-                    'content:ntext',
+                    [
+                        'attribute' => 'content:ntext',
+                        'format' => 'html',
+                        'value' => function (Question $model) {
+                            return Html::a(StringHelper::truncate($model->content, 50), ['question/view', 'id' => $model->id]);
+                        }
+                    ],
+
                     'type',
                     'active:boolean',
                      'created_at:datetime',

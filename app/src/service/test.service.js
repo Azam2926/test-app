@@ -1,12 +1,13 @@
 import httpClient from './http.service'
 
 const testService = {
-  get () {
-    return httpClient.get('question?expand=questionAnswers')
+  get: async (slug) => {
+    return await httpClient.get('question?expand=questionAnswers&slug=' + slug)
   },
-  submitAnswers (answers) {
-    return httpClient.post('question/check-answers', answers)
+  async submitAnswers (answers) {
+    return await httpClient.post('question/check-answers', answers)
   },
+
   loading: {
     id: -1,
     content: 'Loading ...',

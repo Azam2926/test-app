@@ -3,6 +3,7 @@ import Main from '../layouts/Main.vue'
 import Auth from "../layouts/Auth.vue";
 import Home from '../views/Home.vue'
 import Test from '../views/Test.vue'
+import Tests from '../views/Tests.vue'
 import Login from "../views/Login.vue";
 import Registration from "../views/Registration.vue";
 import authService from "../service/auth.service";
@@ -21,9 +22,16 @@ const routes = [
                 component: Home,
             },
             {
-                path: 'test',
-                component: Test,
+                path: 'tests',
+                name: 'tests',
+                component: Tests,
             },
+            {
+                path: 'test/:slug',
+                name: 'test',
+                component: Test,
+                props: true,
+            }
         ],
     },
     {
@@ -49,7 +57,11 @@ const routes = [
         path: '/register',
         redirect: '/auth/register'
     },
-    { path: '/:pathMatch(.*)*', name: 'NotFound', redirect: {name: 'home'} },
+    {
+        path: '/test',
+        redirect: {name: 'test'}
+    },
+    {path: '/:pathMatch(.*)*', name: 'NotFound', redirect: {name: 'home'}},
 
 ]
 
