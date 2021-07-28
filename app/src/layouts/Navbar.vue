@@ -6,7 +6,7 @@
   >
     <router-link to="/" class="hover:underline">Home</router-link>
     <router-link to="/tests" class="hover:underline">Tests</router-link>
-    <a href="javascript:void(0)" @click="logout" title="Click to logout">({{ user.username }})</a>
+    <a href="javascript:void(0)" @click="logout" title="Click to logout">Logout({{ user.username }})</a>
   </nav>
 </template>
 

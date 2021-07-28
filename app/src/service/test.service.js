@@ -55,6 +55,12 @@ const testService = {
       },
     ],
   },
+  testNotFound: [
+    {
+      title: 'Something went wrong',
+      content: 'Something went wrong',
+    },
+  ],
 }
 
 export default testService
