@@ -47,15 +47,15 @@ import testService from '../service/test.service'
 import Question from './Question.vue'
 import Answers from './Answers.vue'
 import ActionBtn from './ActionBtn.vue'
-import AppSvg from "./AppSvg.vue";
+import AppSvg from './AppSvg.vue'
 
 export default {
   name: 'Test',
-  components: {AppSvg, Question, ActionBtn, Answers},
+  components: { AppSvg, Question, ActionBtn, Answers },
   props: {
-    slug: String
+    slug: String,
   },
-  data() {
+  data () {
     return {
       error: false,
       loading: false,
@@ -65,11 +65,11 @@ export default {
       answers: [],
       result: {
         score: 'Loading...',
-        show: false
+        show: false,
       },
     }
   },
-  async created() {
+  async created () {
     this.loading = true
     try {
       const res = await testService.getQuestions(this.slug)
@@ -80,14 +80,14 @@ export default {
     this.loading = false
   },
   methods: {
-    async submitAnswers() {
+    async submitAnswers () {
       this.loading = true
 
       try {
         const res = await testService.submitAnswers(this.answers)
         this.result = {
           score: res.data.score,
-          show: true
+          show: true,
         }
       } catch (e) {
         console.log(e)
@@ -95,7 +95,7 @@ export default {
       this.loading = false
 
     },
-    takeAnswers(answers, selectedAnswer) {
+    takeAnswers (answers, selectedAnswer) {
       this.questions[this.currentIndex].questionAnswers = answers
 
       const answeredQuestionIndex = this.answers.findIndex(obj => obj.question_id === this.currentQuestion.id)
@@ -111,39 +111,39 @@ export default {
       setTimeout(() => {
         if (this.currentIndex !== this.question_length - 1)
           this.currentIndex++
-      }, 300)
+      }, 700)
     },
   },
   computed: {
-    currentQuestion() {
+    currentQuestion () {
       if (this.error)
         return testService.notFound
 
       return this.questions[this.currentIndex] ?? testService.loading
     },
-    disabledPrev() {
+    disabledPrev () {
       return this.currentIndex === 0
     },
-    disabledNext() {
+    disabledNext () {
       return this.currentIndex === this.question_length - 1
     },
-    hiddenSubmit() {
+    hiddenSubmit () {
       if (this.reachedEnd)
-        return false;
+        return false
 
       if (this.currentIndex !== this.question_length - 1)
         return true
 
-      this.reachedEnd = true;
+      this.reachedEnd = true
 
       return false
     },
-    question_length() {
+    question_length () {
       return this.questions.length
     },
-    footer() {
+    footer () {
       return (this.currentIndex + 1) + '/' + (this.question_length)
-    }
+    },
   },
 }
 </script>
