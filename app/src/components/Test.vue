@@ -72,7 +72,7 @@ export default {
   async created() {
     this.loading = true
     try {
-      const res = await testService.get(this.slug)
+      const res = await testService.getQuestions(this.slug)
       this.questions = res.data
     } catch (e) {
       this.error = true

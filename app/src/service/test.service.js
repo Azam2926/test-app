@@ -1,10 +1,13 @@
 import httpClient from './http.service'
 
 const testService = {
-  get: async (slug) => {
+  getQuestions: async (slug) => {
     return await httpClient.get('question?expand=questionAnswers&slug=' + slug)
   },
-  async submitAnswers (answers) {
+  getTests: async () => {
+    return await httpClient.get('test')
+  },
+  submitAnswers: async (answers) => {
     return await httpClient.post('question/check-answers', answers)
   },
 
@@ -51,7 +54,7 @@ const testService = {
         content: 'Something went wrong',
       },
     ],
-  }
+  },
 }
 
 export default testService
