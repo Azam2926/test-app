@@ -29,7 +29,7 @@ export default {
     if (status === 200)
       this.tests = data
     else
-      this.tests = testService.testsNotFound
+      this.tests = testService.testNotFound
 
     this.loading = false
   },

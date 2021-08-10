@@ -29,7 +29,7 @@
         <app-svg d="M9 5l7 7-7 7"/>
       </action-btn>
     </div>
-    <div class="flex">
+    <div class="flex pb-4">
       <button
           class="text-lg mb-4 bg-gray-800 hover:bg-opacity-50 inline-flex justify-center mx-auto w-1/2 md:w-1/4 text-gray-200 hover:bg-gray-700 z-50 font-bold py-4 px-4 shadow-lg rounded-b"
           :class="{ hidden: hiddenSubmit }"

@@ -1,8 +1,5 @@
 <template>
-  <nav class="h-10 sm:h-16 md:h-20
-              fixed top-0 inset-x-0 z-50
-              text-white bg-gray-800 uppercase font-medium
-              flex justify-evenly items-center shadow-lg font-nunito"
+  <nav class="h-10 sm:h-16 md:h-20 fixed top-0 inset-x-0 z-50 text-white bg-gray-800 uppercase font-medium flex justify-evenly items-center shadow-lg font-nunito"
   >
     <router-link to="/" class="hover:underline">Home</router-link>
     <router-link to="/tests" class="hover:underline">Tests</router-link>
@@ -11,17 +8,18 @@
 </template>
 
 <script>
-import authService from "../service/auth.service";
+import authService from '../service/auth.service'
+
 export default {
   name: 'Navbar',
   props: {
-    user: Object | null
+    user: Object | null,
   },
   methods: {
     logout: () => {
       authService.logout()
-    }
-  }
+    },
+  },
 }
 
 </script>
